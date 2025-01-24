@@ -1,7 +1,10 @@
-﻿namespace PlantVisit.EFCoreModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PlantVisit.EFCoreModel
 {
     public class PlantList
     {
+        [Key]
         public int PlantID { get; set; }
         public string? PlantName { get; set; }
         public string?  PlantDescription { get; set; }

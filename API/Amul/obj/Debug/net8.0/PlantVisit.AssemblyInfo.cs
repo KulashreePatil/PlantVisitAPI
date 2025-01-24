@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PlantVisit")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a50882a0f3101bad734e09590f290edde1c444e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+36655d3ee7b5f7094019096a0d03d58b6ed574cf")]
 [assembly: System.Reflection.AssemblyProductAttribute("PlantVisit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PlantVisit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

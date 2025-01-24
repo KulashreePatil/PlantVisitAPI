@@ -1,7 +1,10 @@
-﻿namespace PlantVisit.EFCoreModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PlantVisit.EFCoreModel
 {
     public class BookingTable
     {
+        [Key]
        public int BookingID { get; set; }
        public int UserID { get; set; }
        public int PlantID { get; set; }

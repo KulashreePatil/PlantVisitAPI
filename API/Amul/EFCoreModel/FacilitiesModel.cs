@@ -2,7 +2,7 @@
 
 namespace PlantVisit.EFCoreModel
 {
-    public class Facilities
+    public class FacilitiesModel
 
     {
         [Key]

@@ -1,4 +1,4 @@
-﻿namespace PlantVisit.Service.Plant
+﻿namespace PlantVisit.Service.VisitSlot
 {
     public class IVisitSlot
     {

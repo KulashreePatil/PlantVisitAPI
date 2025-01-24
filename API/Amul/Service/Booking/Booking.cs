@@ -1,4 +1,4 @@
-﻿namespace PlantVisit.Service.Plant
+﻿namespace PlantVisit.Service.Booking
 {
     public class Booking
     {
