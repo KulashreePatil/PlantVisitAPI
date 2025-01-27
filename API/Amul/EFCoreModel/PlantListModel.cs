@@ -2,7 +2,7 @@
 
 namespace PlantVisit.EFCoreModel
 {
-    public class PlantList
+    public class PlantListModel
     {
         [Key]
         public int PlantID { get; set; }

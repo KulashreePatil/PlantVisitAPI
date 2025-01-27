@@ -1,6 +1,14 @@
-﻿namespace PlantVisit.Service.VisitSlot
+﻿using PlantVisit.EFCoreModel;
+
+namespace PlantVisit.Service.VisitSlot
 {
-    public class IVisitSlot
+    public interface IVisitSlot
     {
+
+        List<VisitSlotModel> GetAll();
+        Task<int> Add(VisitSlotModel VisitSlotModel);
+        Task<bool> Update(VisitSlotModel VisitSlotModel);
     }
+
 }
+

@@ -26,21 +26,20 @@ namespace PlantVisit.EFCoreModel
 
             public DbSet<BookingTable> BookingTable { get; set; }
             public DbSet<FacilitiesModel> Facilities { get; set; }
-            public DbSet<PFMappingmodel> PFMappingmodel { get; set; }   
-            public DbSet<PlantList> Plants { get; set; }
-            public DbSet<UserDatamodel> UserDatamodel { get; set; }
-            public DbSet<VisitSlot> VisitSlot { get; set; }
-
-
+            public DbSet<PFMapping> Mapping { get; set; }   
+            public DbSet<PlantListModel> Plant { get; set; }
+            public DbSet<UserData> UserData { get; set; }
+            public DbSet<VisitSlotModel> VisitSlot { get; set; }
+        public object PlantList { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookingTable>().ToTable("BookingTable");
             modelBuilder.Entity<FacilitiesModel>().ToTable("Facilities");
-            modelBuilder.Entity<PFMappingmodel>().ToTable("PFMapping");
-            modelBuilder.Entity<PlantList>().ToTable("PlantList");
-            modelBuilder.Entity<UserDatamodel>().ToTable("UserData");
-            modelBuilder.Entity<VisitSlot>().ToTable("VisitSlot");
+            modelBuilder.Entity<PFMapping>().ToTable("PFMapping");
+            modelBuilder.Entity<PlantListModel>().ToTable("PlantList");
+            modelBuilder.Entity<UserData>().ToTable("UserData");
+            modelBuilder.Entity<VisitSlotModel>().ToTable("VisitSlot");
         }
         }
     }

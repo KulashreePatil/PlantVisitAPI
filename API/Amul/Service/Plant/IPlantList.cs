@@ -1,6 +1,14 @@
-﻿namespace PlantVisit.Service.Plant
+﻿using PlantVisit.EFCoreModel;
+
+namespace PlantVisit.Service.Plant
 {
-    public class IPlantList
+    public interface IPlantList
     {
+
+        List<PlantListModel> GetAll();
+        Task <int> Add(PlantListModel Plantlistmodel);
+        Task <bool> Update (PlantListModel Plantlistmodel);
     }
+
 }
+

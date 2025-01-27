@@ -2,7 +2,7 @@
 
 namespace PlantVisit.EFCoreModel
 {
-    public class VisitSlot
+    public class VisitSlotModel
     {
       [Key]
       public int VisitID { get; set; }
