@@ -1,6 +1,14 @@
-﻿namespace PlantVisit.Service.Booking
+﻿using PlantVisit.EFCoreModel;
+
+namespace PlantVisit.Service.Booking
 {
-    public class IBooking
+    public interface IBooking
     {
+
+        List<BookingTable> GetAll();
+        Task<int> Add(BookingTable objbooking);
+        Task<bool> Update(BookingTable objbooking);
     }
+
 }
+

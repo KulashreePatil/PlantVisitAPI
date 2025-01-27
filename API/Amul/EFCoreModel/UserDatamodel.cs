@@ -2,10 +2,10 @@
 
 namespace PlantVisit.EFCoreModel
 {
-    public class UserData
+    public class UserDatamodel
     {
         [Key]
        public int UserID { get; set; }
-        public int UserNumber { get; set; }
+       public int UserNumber { get; set; }
     }
 }

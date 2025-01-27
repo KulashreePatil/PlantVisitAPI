@@ -1,12 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PlantVisit.EFCoreModel;
+using PlantVisit.Service.PFMap;
+
 
 namespace PlantVisit.Controllers
 {
-    public class PFMappingController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PFMappingController : ControllerBase
     {
-        public IActionResult Index()
+
+        readonly IPFMapping _service;
+        public PFMappingController(IPFMapping service)
         {
-            return View();
+            _service = service;
         }
+
+        [HttpGet("[action]"), AllowAnonymous]
+        public IActionResult GetAll()
+        {
+            List<PFMappingmodel> lstData = _service.GetAll();
+            return Ok(lstData);
+        }
+
+
     }
 }

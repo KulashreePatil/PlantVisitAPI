@@ -1,13 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using PlantVisit.EFCoreModel;
 using PlantVisit.Service.Facilities;
 using PlantVisit.Service.Booking;
-using PlantVisit.Service.PFMapping;
-using PlantVisit.Service.Plant;
 using PlantVisit.Service.UserDta;
-using PlantVisit.Service.VisitSlot;
-using System.Numerics;
+using PlantVisit.Service.PFMap;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,11 +21,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IFacilities, Facilities>();
-//builder.Services.AddScoped<IBooking, Booking>();
-//builder.Services.AddScoped<IPFMapping, PFMapping>();
+builder.Services.AddScoped<IFacilities, Facility>();
+builder.Services.AddScoped<IBooking, Booking>();
+builder.Services.AddScoped<IPFMapping, PFMap>();
 //builder.Services.AddScoped<IPlantList, PlantList>();
-//builder.Services.AddScoped<IUserData, UserData>();
+builder.Services.AddScoped<IUserData, UserData>();
 //builder.Services.AddScoped<IVisitSlot,VisitSlot>();
 var app = builder.Build();
 

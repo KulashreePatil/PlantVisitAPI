@@ -6,9 +6,9 @@ namespace PlantVisit.EFCoreModel
 
     {
         [Key]
-        public int FacilitiesId { get; set; }
+        public int? FacilitiesId { get; set; }
 
-        public string FaciltiesName { get; set; }
+        public string? FacilitiesName { get; set; }
     }
 }
 

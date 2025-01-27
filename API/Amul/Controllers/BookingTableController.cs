@@ -1,12 +1,42 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PlantVisit.EFCoreModel;
+using PlantVisit.Service.Booking;
+
 
 namespace PlantVisit.Controllers
 {
-    public class BookingTableController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class BookingTableController : ControllerBase
     {
-        public IActionResult Index()
+
+        readonly IBooking _service;
+        public BookingTableController(IBooking service)
         {
-            return View();
+            _service = service;
         }
+        [HttpPost]
+        public async Task<IActionResult> Add(BookingTable Bookingobj)
+        {
+            int id = await _service.Add(Bookingobj);
+            return Ok("Added Successfully, Id: " + id);
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update(BookingTable Bookingobj)
+        {
+            bool updated = await _service.Update(Bookingobj);
+            return Ok("Updated Successfully");
+        }
+        [HttpGet("[action]"), AllowAnonymous]
+        public IActionResult GetAll()
+        {
+            List<BookingTable> lstData = _service.GetAll();
+            return Ok(lstData);
+        }
+
+
     }
 }

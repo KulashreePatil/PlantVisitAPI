@@ -2,13 +2,10 @@
 
 namespace PlantVisit.Service.Facilities
 {
-    public class Facilities: IFacilities
+    public class Facility : IFacilities
     {
         readonly PlantVisitDBContext dbContext;
-
-        public int FacilitiesId { get; private set; }
-
-        public Facilities(PlantVisitDBContext PlantVisitDBContext)
+        public Facility(PlantVisitDBContext PlantVisitDBContext)
         {
             dbContext = PlantVisitDBContext;
         }
@@ -19,7 +16,7 @@ namespace PlantVisit.Service.Facilities
                 await dbContext.Facilities.AddAsync(objFac);
                 dbContext.SaveChanges();
             }
-            return objFac.FacilitiesId;
+            return (int)objFac.FacilitiesId;
         }
         public async Task<bool> Update(FacilitiesModel objFac)
         {
@@ -31,7 +28,7 @@ namespace PlantVisit.Service.Facilities
             return true;
         }
 
-        
+
 
         public List<FacilitiesModel> GetAll()
         {
@@ -42,8 +39,5 @@ namespace PlantVisit.Service.Facilities
             }
             return lstdata;
         }
-
-       
     }
-    }
-
+}

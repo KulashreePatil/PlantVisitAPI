@@ -1,6 +1,12 @@
-﻿namespace PlantVisit.Service.UserDta
+﻿using PlantVisit.EFCoreModel;
+
+namespace PlantVisit.Service.UserDta;
+
+public interface IUserData
 {
-    public class IUserData
-    {
-    }
+
+    List<UserDatamodel> GetAll();
+    Task<int> Add(UserDatamodel objuser);
+    Task<int> Update(UserDatamodel objuser);
 }
+
