@@ -17,7 +17,12 @@ namespace PlantVisit.Service.Booking
         //}
         public async Task<Bookingmodel> GetById(int id)
         {
-            return await dbContext.Set<Bookingmodel>().FindAsync(id);
+            var booking = await dbContext.Set<Bookingmodel>().FindAsync(id);
+            if (booking == null)
+            {
+                throw new KeyNotFoundException($"Plant with ID {id} not found.");
+            }
+            return booking;
         }
         public async Task<int> Add(Bookingmodel objbooking)
         {

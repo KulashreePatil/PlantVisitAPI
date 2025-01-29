@@ -25,7 +25,12 @@ namespace PlantVisit.Service.Visit
         }
         public async Task<VisitModel> GetByID(int id)
         {
-            return await dbContext.Set<VisitModel>().FindAsync(id);
+            var visit = await dbContext.Set<VisitModel>().FindAsync(id);
+            if (visit == null)
+            {
+                throw new KeyNotFoundException($"Visit with ID {id} not found.");
+            }
+            return visit;
         }
 
         public async Task<int> Add(VisitModel objvisit)

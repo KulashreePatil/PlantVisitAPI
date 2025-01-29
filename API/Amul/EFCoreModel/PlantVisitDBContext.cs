@@ -26,9 +26,9 @@ namespace PlantVisit.EFCoreModel
             public DbSet<Bookingmodel> BookingTable { get; set; }
             public DbSet<FacilitiesModel> Facilities { get; set; }
             public DbSet<PFMappingmodel> Mapping { get; set; }   
-            public DbSet<PlantListModel> Plant { get; set; }
-            public DbSet<UserDatamodel> UserData { get; set; }
-            public DbSet<VisitSlotModel> VisitSlot { get; set; }
+            public DbSet<PlantModel> Plant { get; set; }
+            public DbSet<UserModel> User { get; set; }
+            public DbSet<VisitModel> Visit { get; set; }
         public DbSet<PlantFacilityViewModel> PlantFacilityViewModel { get; set; }
         public DbSet<PlantFacilityViewModel> ViewModel { get; set; }
         public object PlantList { get; internal set; }
@@ -39,9 +39,9 @@ namespace PlantVisit.EFCoreModel
             modelBuilder.Entity<Bookingmodel>().ToTable("BookingTable");
             modelBuilder.Entity<FacilitiesModel>().ToTable("Facilities");
             modelBuilder.Entity<PFMappingmodel>().ToTable("PFMapping");
-            modelBuilder.Entity<PlantListModel>().ToTable("PlantList");
-            modelBuilder.Entity<UserDatamodel>().ToTable("UserData");
-            modelBuilder.Entity<VisitSlotModel>().ToTable("VisitSlot");
+            modelBuilder.Entity<PlantModel>().ToTable("PlantList");
+            modelBuilder.Entity<UserModel>().ToTable("UserData");
+            modelBuilder.Entity<VisitModel>().ToTable("VisitSlot");
             modelBuilder.Entity<PlantFacilityViewModel>().HasNoKey();
         }
         }

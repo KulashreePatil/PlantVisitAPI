@@ -12,12 +12,23 @@ namespace PlantVisit.Service.Facilities
         }
         public async Task<int> Add(FacilitiesModel objfac)
         {
-            await dbContext.Set<FacilitiesModel>().AddAsync(objfac);
-            return await dbContext.SaveChangesAsync();
+            var existingFacilities = new FacilitiesModel
+            {
+                FacilitiesName = objfac.FacilitiesName,
+            };
+
+            dbContext.Facilities.Add(existingFacilities);
+            await dbContext.SaveChangesAsync();
+            return (int)objfac.FacilitiesId;
         }
         public async Task<FacilitiesModel> GetById(int id)
         {
-            return await dbContext.Set<FacilitiesModel>().FindAsync(id);
+            var facilities = await dbContext.Set<FacilitiesModel>().FindAsync(id);
+            if (facilities == null)
+            {
+                throw new KeyNotFoundException($"Facilities with ID {id} not found.");
+            }
+            return facilities;
         }
         public async Task<bool> Update(FacilitiesModel objfac)
         {

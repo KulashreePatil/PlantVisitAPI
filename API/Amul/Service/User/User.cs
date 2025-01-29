@@ -21,7 +21,12 @@ namespace PlantVisit.Service.User
         }
         public async Task<UserModel> GetByID(int id)
         {
-            return await dbContext.Set<UserModel>().FindAsync(id);
+            var user = await dbContext.Set<UserModel>().FindAsync(id);
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User with ID {id} not found.");
+            }
+            return user;
         }
 
         public async Task<int> Add(UserModel objuser)

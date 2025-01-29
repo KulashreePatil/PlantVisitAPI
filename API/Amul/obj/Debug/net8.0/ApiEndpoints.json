@@ -1,5 +1,47 @@
 [
   {
+    "ContainingType": "PlantVisit.Controllers.BookingController",
+    "Method": "Add",
+    "RelativePath": "api/Booking",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Bookingobj",
+        "Type": "PlantVisit.EFCoreModel.Bookingmodel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.BookingController",
+    "Method": "GetAll",
+    "RelativePath": "api/Booking/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.BookingController",
+    "Method": "Update",
+    "RelativePath": "api/Booking/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Bookingobj",
+        "Type": "PlantVisit.EFCoreModel.Bookingmodel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PlantVisit.Controllers.FacilitiesController",
     "Method": "Add",
     "RelativePath": "api/Facilities",
@@ -36,6 +78,158 @@
       {
         "Name": "FacilityModel",
         "Type": "PlantVisit.EFCoreModel.FacilitiesModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.PFMappingController",
+    "Method": "Add",
+    "RelativePath": "api/PFMapping",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "obj",
+        "Type": "PlantVisit.EFCoreModel.PFMappingmodel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.PFMappingController",
+    "Method": "GetAll",
+    "RelativePath": "api/PFMapping/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.PlantController",
+    "Method": "Add",
+    "RelativePath": "api/Plant",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PlantModel",
+        "Type": "PlantVisit.EFCoreModel.PlantModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.PlantController",
+    "Method": "GetAll",
+    "RelativePath": "api/Plant/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.PlantController",
+    "Method": "Update",
+    "RelativePath": "api/Plant/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PlantModel",
+        "Type": "PlantVisit.EFCoreModel.PlantModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.UserController",
+    "Method": "Add",
+    "RelativePath": "api/User",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserModel",
+        "Type": "PlantVisit.EFCoreModel.UserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.UserController",
+    "Method": "GetAll",
+    "RelativePath": "api/User/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.UserController",
+    "Method": "Update",
+    "RelativePath": "api/User/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserModel",
+        "Type": "PlantVisit.EFCoreModel.UserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.VisitController",
+    "Method": "Add",
+    "RelativePath": "api/Visit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "VisitModel",
+        "Type": "PlantVisit.EFCoreModel.VisitModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.VisitController",
+    "Method": "GetAll",
+    "RelativePath": "api/Visit/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PlantVisit.Controllers.VisitController",
+    "Method": "Update",
+    "RelativePath": "api/Visit/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "VisitModel",
+        "Type": "PlantVisit.EFCoreModel.VisitModel",
         "IsRequired": true
       }
     ],
