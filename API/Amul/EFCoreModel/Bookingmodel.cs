@@ -2,7 +2,7 @@
 
 namespace PlantVisit.EFCoreModel
 {
-    public class BookingTable
+    public class Bookingmodel
     {
         [Key]
        public int? BookingID { get; set; }

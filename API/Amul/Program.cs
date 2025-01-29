@@ -23,10 +23,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IFacilities, Facility>();
 builder.Services.AddScoped<IBooking, Booking>();
-builder.Services.AddScoped<IPFMapping, PFMap>();
+builder.Services.AddScoped<IPFMapping, PFMapping>();
 //builder.Services.AddScoped<IPlantList, PlantList>();
 builder.Services.AddScoped<IUserData, UserData>();
 //builder.Services.AddScoped<IVisitSlot,VisitSlot>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
