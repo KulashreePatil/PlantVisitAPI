@@ -6,7 +6,11 @@ namespace PlantVisit.Service.PFMap
     public interface IPFMapping
     {
 
-        List<PFMappingmodel> GetAll();
+        Task<List<PFMappingmodel>> GetAll();
+        Task<PFMappingmodel?> GetByIdAsync(int plantid);
+        Task<int> Add(PFMappingmodel obj);
+        Task<List<PlantFacilityViewModel>> GetDetails();
+
     }
 
 }

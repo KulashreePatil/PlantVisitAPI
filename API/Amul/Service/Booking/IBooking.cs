@@ -5,9 +5,12 @@ namespace PlantVisit.Service.Booking
     public interface IBooking
     {
 
-        List<BookingTable> GetAll();
-        Task<int> Add(BookingTable objbooking);
-        Task<bool> Update(BookingTable objbooking);
+
+        Task<List<Bookingmodel>> GetAll();
+
+        Task<Bookingmodel> GetById(int id);
+        Task<int> Add(Bookingmodel objbooking);
+        Task<bool> Update(Bookingmodel objbooking);
     }
 
 }

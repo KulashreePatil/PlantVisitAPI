@@ -17,11 +17,16 @@ namespace PlantVisit.Controllers
         {
             _service = service;
         }
-
-        [HttpGet("[action]"), AllowAnonymous]
-        public IActionResult GetAll()
+        [HttpPost]
+        public async Task<IActionResult> Add(PFMappingmodel obj)
         {
-            List<PFMappingmodel> lstData = _service.GetAll();
+            int id = await _service.Add(obj);
+            return Ok("Added Successfully, Id: " + id);
+        }
+        [HttpGet("[action]"), AllowAnonymous]
+        public async Task<IActionResult> GetAll()
+        {
+            List<PFMappingmodel> lstData = await _service.GetAll();
             return Ok(lstData);
         }
 

@@ -1,4 +1,5 @@
-﻿using PlantVisit.EFCoreModel;
+﻿using Microsoft.EntityFrameworkCore;
+using PlantVisit.EFCoreModel;
 
 namespace PlantVisit.Service.Booking
 {
@@ -9,35 +10,54 @@ namespace PlantVisit.Service.Booking
         {
             dbContext = PlantVisitDBContext;
         }
-        public async Task<int> Add(BookingTable objbooking)
+        //public async Task<int> Add(Bookingmodel objbooking)
+        //{
+        //    await dbContext.Set<Bookingmodel>().AddAsync(objbooking);
+        //    return await dbContext.SaveChangesAsync();
+        //}
+        public async Task<Bookingmodel> GetById(int id)
         {
-            using (var connection = dbContext)
+            return await dbContext.Set<Bookingmodel>().FindAsync(id);
+        }
+        public async Task<int> Add(Bookingmodel objbooking)
+        {
+            var existingBooking = new Bookingmodel
             {
-                await dbContext.BookingTable.AddAsync(objbooking);
-                dbContext.SaveChanges();
-            }
+                UserID = objbooking.UserID,
+                PlantID = objbooking.PlantID,
+                VisitID = objbooking.VisitID,
+                BookingDate = objbooking.BookingDate,
+                Capacity = objbooking.Capacity
+            };
+
+            dbContext.BookingTable.Add(existingBooking);
+            await dbContext.SaveChangesAsync();
             return (int)objbooking.BookingID;
         }
-        public async Task<bool> Update(BookingTable objbooking)
-        {
-            var facility = dbContext.BookingTable.Find(objbooking.BookingID);
-            if (facility == null)
-                return false;
 
-            await dbContext.SaveChangesAsync();
-            return true;
+        public async Task<bool> Update(Bookingmodel objbooking)
+        {
+            if (objbooking.BookingID == null)
+            {
+                return false;  
+            }
+
+            Bookingmodel? existingBooking = await GetById((int)objbooking.BookingID);
+            if (existingBooking != null)
+            {
+                existingBooking.BookingDate = objbooking.BookingDate;
+                existingBooking.Capacity = objbooking.Capacity;
+
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
 
-
-
-        public List<BookingTable> GetAll()
+        public async Task<List<Bookingmodel>> GetAll()
         {
-            List<BookingTable> lstdata = new List<BookingTable>();
-            using (var connection = dbContext)
-            {
-                lstdata = dbContext.BookingTable.ToList();
-            }
-            return lstdata;
+            return await dbContext.Set<Bookingmodel>().ToListAsync();
         }
     }
 }
