@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlantVisit.EFCoreModel;
+using PlantVisit.EFCoreModel.Common;
 using System.Linq;
 
 
@@ -21,15 +22,24 @@ namespace PlantVisit.Service.Plant
             return dbContext;
         }
 
-        public async Task<List<PlantModel>> GetAll()
+        public async Task<APIResponseModel> GetAll()
         {
-            List<PlantModel> lstdata = new List<PlantModel>();
-            using (var connection = dbContext)
+            APIResponseModel response = new APIResponseModel();
+            try
             {
-                lstdata = await dbContext.Plant.ToListAsync();
+                response.Data = await dbContext.Plant.ToListAsync();
+                response.Message = "record fetched successfully";
+                response.IsSuccess = true;
             }
-            return lstdata;
+            catch (Exception)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+            }
+            return response;
         }
+        
         public async Task<PlantModel> GetByID(int id)
         {
             var plant = await dbContext.Set<PlantModel>().FindAsync(id);
@@ -41,44 +51,67 @@ namespace PlantVisit.Service.Plant
         }
 
 
-        public async Task<int> Add(PlantModel objplant)
+        public async Task<APIResponseModel> Add(PlantModel objplant)
         {
-            objplant.PlantID = dbContext.Plant.Max(p => (int?)p.PlantID).GetValueOrDefault() + 1;
-            var existingPlant = new PlantModel
-            {
-                PlantName = objplant.PlantName,
-                PlantDescription = objplant.PlantDescription,
-                PlantLocation = objplant.PlantLocation,
-                PlantNumber = objplant.PlantNumber,
-                PlantEmail = objplant.PlantEmail
-            };
+           APIResponseModel response = new APIResponseModel();
 
-            dbContext.Plant.Add(existingPlant);
-            await dbContext.SaveChangesAsync();
-            return objplant.PlantID;
+            try
+            {
+                var existingPlant = new PlantModel
+                {
+                    PlantName = objplant.PlantName,
+                    PlantDescription = objplant.PlantDescription,
+                    PlantLocation = objplant.PlantLocation,
+                    PlantNumber = objplant.PlantNumber,
+                    PlantEmail = objplant.PlantEmail
+                };
+                dbContext.Plant.Add(existingPlant);
+                await dbContext.SaveChangesAsync();
+                response.Data = (int)objplant.PlantID;
+                response.Message = "record added successfully";
+                response.IsSuccess = true;
+            }
+            catch (Exception)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+            }
+            return response;
         }
 
-        public async Task<bool> Update(PlantModel objplant)
+        public async Task<APIResponseModel> Update(PlantModel objplant)
         {
+            APIResponseModel response = new APIResponseModel();
 
-            if (objplant.PlantID <= 0)
+            try
             {
-                return false;
-            }
+                
                 PlantModel? existingplant = await GetByID(objplant.PlantID);
-            if (existingplant != null)
-            {
-                existingplant.PlantName = objplant.PlantName;
-                existingplant.PlantDescription = objplant.PlantDescription;
-                existingplant.PlantLocation = objplant.PlantLocation;
-                existingplant.PlantNumber = objplant.PlantNumber;
-                existingplant.PlantEmail = objplant.PlantEmail;
+                if (existingplant != null)
+                {
+                    existingplant.PlantName = objplant.PlantName;
+                    existingplant.PlantDescription = objplant.PlantDescription;
+                    existingplant.PlantLocation = objplant.PlantLocation;
+                    existingplant.PlantNumber = objplant.PlantNumber;
+                    existingplant.PlantEmail = objplant.PlantEmail;
 
 
-                await dbContext.SaveChangesAsync();
-                return true;
+                    response.Data = await dbContext.SaveChangesAsync();
+                    response.Message = "record fetched successfully";
+                    response.IsSuccess = true;
+
+                }
+                
             }
-            return false;
+            catch (Exception)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+
+            }
+            return response;
         }
 
     }

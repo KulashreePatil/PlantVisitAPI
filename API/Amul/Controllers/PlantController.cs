@@ -18,28 +18,19 @@ namespace PlantVisit.Controllers
         [HttpGet("[action]"), AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
-            List<PlantModel> lstData = await _service.GetAll();
-            return Ok(lstData);
+            return Ok(await _service.GetAll());
         }
         [HttpPost]
         public async Task<IActionResult> Add(PlantModel PlantModel)
         {
-            int added = await _service.Add(PlantModel);
-            if (true)
-            {
-                return Ok("Added Successfully");
-            }
+            return Ok(await _service.Add(PlantModel));
         }
 
         [HttpPut("Update")]
         public async Task<IActionResult> Update(PlantModel PlantModel)
         {
-            bool updated = await _service.Update(PlantModel);
-            if (updated)
-            {
-                return Ok("Updated Successfully");
-            }
-            return NotFound("Plant Not Found");
+
+            return Ok(await _service.Update(PlantModel));
         }
 
     }

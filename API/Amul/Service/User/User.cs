@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlantVisit.EFCoreModel;
+using PlantVisit.EFCoreModel.Common;
 
 namespace PlantVisit.Service.User
 {
@@ -10,14 +11,22 @@ namespace PlantVisit.Service.User
         {
             dbContext = PlantVisitDBContext;
         }
-        public async Task<List<UserModel>> GetAll()
+        public async Task<APIResponseModel> GetAll()
         {
-            List<UserModel> lstdata = new List<UserModel>();
-            using (var connection = dbContext)
+            APIResponseModel response = new APIResponseModel();
+            try
             {
-                lstdata = await dbContext.User.ToListAsync();
+                response.Data = await dbContext.User.ToListAsync();
+                response.Message = "record fetched successfully";
+                response.IsSuccess = true;
             }
-            return lstdata;
+            catch (Exception)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+            }
+            return response;
         }
         public async Task<UserModel> GetByID(int id)
         {
@@ -29,29 +38,57 @@ namespace PlantVisit.Service.User
             return user;
         }
 
-        public async Task<int> Add(UserModel objuser)
+        public async Task<APIResponseModel> Add(UserModel objuser)
         {
-            var existingUser = new UserModel
+            APIResponseModel response = new APIResponseModel();
+
+            try
             {
-               UserNumber = objuser.UserNumber,
-            };
+                var existingUser = new UserModel
+                {
+                    UserNumber = objuser.UserNumber,
+                };
 
-            dbContext.User.Add(existingUser);
-            await dbContext.SaveChangesAsync();
-            return existingUser.UserID;
-        }
-        public async Task<bool> Update(UserModel objuser)
-        {
-
-            UserModel? existinguser = await GetByID(objuser.UserID);
-            if (existinguser != null)
-            {
-               existinguser.UserNumber = objuser.UserNumber;
-
+                dbContext.User.Add(existingUser);
                 await dbContext.SaveChangesAsync();
-                return true;
+                response.Data = (int)objuser.UserID;
+                response.Message = "record added successfully";
+                response.IsSuccess = true;
+
             }
-            return false;
+            catch (Exception)
+            {
+
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+            }
+            return response;
+        }
+        public async Task<APIResponseModel> Update(UserModel objuser)
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                UserModel? existinguser = await GetByID(objuser.UserID);
+                if (existinguser != null)
+                {
+                    existinguser.UserNumber = objuser.UserNumber;
+
+                    await dbContext.SaveChangesAsync();
+                    response.Data = (int)objuser.UserID;
+                    response.Message = "record updated successfully";
+                    response.IsSuccess = true;
+                }
+            }
+            catch (Exception)
+            {
+
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+            }
+            return response;
         }
     }
 }

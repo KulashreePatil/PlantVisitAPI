@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using PlantVisit.EFCoreModel;
+using PlantVisit.EFCoreModel.Common;
 
 namespace PlantVisit.Service.User;
 
 public interface IUser
 {
 
-    Task<List<UserModel>> GetAll();
-    Task<int> Add(UserModel objuser);
-    Task<bool> Update(UserModel objuser);
+    Task<APIResponseModel> GetAll();
+    Task<APIResponseModel> Add(UserModel objuser);
+    Task<APIResponseModel> Update(UserModel objuser);
     Task<UserModel> GetByID(int id);
 }
 
