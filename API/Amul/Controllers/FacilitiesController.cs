@@ -19,8 +19,7 @@ namespace PlantVisit.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(FacilitiesModel FacilityModel)
         {
-            int id = await _service.Add(FacilityModel);
-            return Ok("Added Successfully, Id: " + id);
+            return Ok(await _service.Add(FacilityModel));
         }
 
         [HttpPut("Update")]
@@ -37,8 +36,7 @@ namespace PlantVisit.Controllers
         [HttpGet("[action]"), AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
-            var lstData = await _service.GetAll();  
-            return Ok(lstData);  
+            return Ok(await _service.GetAll());
         }
     }
 }
