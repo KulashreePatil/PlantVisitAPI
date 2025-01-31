@@ -6,10 +6,10 @@ namespace PlantVisit.Service.Facilities
     public interface IFacilities
     {
         Task<APIResponseModel> GetAll();
-        Task<FacilitiesModel?> GetByIdAsync(int id);
+        Task<FacilitiesModel> GetById(int? id);
         Task<APIResponseModel> Add(FacilitiesModel facilityobj);
-        Task<bool> Update(FacilitiesModel facilityobj);
-        Task<List<PlantFacilityViewModel>>GetDetails();
+        Task<APIResponseModel> Update(FacilitiesModel facilityobj);
+        
     }
 
 }

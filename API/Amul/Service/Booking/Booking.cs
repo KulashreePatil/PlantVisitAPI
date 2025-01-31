@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlantVisit.EFCoreModel;
+using PlantVisit.EFCoreModel.Common;
 
 namespace PlantVisit.Service.Booking
 {
@@ -10,12 +11,8 @@ namespace PlantVisit.Service.Booking
         {
             dbContext = PlantVisitDBContext;
         }
-        //public async Task<int> Add(Bookingmodel objbooking)
-        //{
-        //    await dbContext.Set<Bookingmodel>().AddAsync(objbooking);
-        //    return await dbContext.SaveChangesAsync();
-        //}
-        public async Task<Bookingmodel> GetById(int id)
+        
+        public async Task<Bookingmodel> GetById(int? id)
         {
             var booking = await dbContext.Set<Bookingmodel>().FindAsync(id);
             if (booking == null)
@@ -24,45 +21,80 @@ namespace PlantVisit.Service.Booking
             }
             return booking;
         }
-        public async Task<int> Add(Bookingmodel objbooking)
+        public async Task<APIResponseModel> Add(Bookingmodel objbooking)
         {
-            var existingBooking = new Bookingmodel
+            APIResponseModel response = new APIResponseModel();
+            try
             {
-                UserID = objbooking.UserID,
-                PlantID = objbooking.PlantID,
-                VisitID = objbooking.VisitID,
-                BookingDate = objbooking.BookingDate,
-                Capacity = objbooking.Capacity
-            };
+                var existing = new Bookingmodel
+                {
+                    UserID = objbooking.UserID,
+                    PlantID = objbooking.PlantID,
+                    VisitID = objbooking.VisitID,
+                    BookingDate = objbooking.BookingDate,
+                    Capacity = objbooking.Capacity
+                };
 
-            dbContext.BookingTable.Add(existingBooking);
-            await dbContext.SaveChangesAsync();
-            return (int)objbooking.BookingID;
-        }
-
-        public async Task<bool> Update(Bookingmodel objbooking)
-        {
-            if (objbooking.BookingID == null)
-            {
-                return false;  
-            }
-
-            Bookingmodel? existingBooking = await GetById((int)objbooking.BookingID);
-            if (existingBooking != null)
-            {
-                existingBooking.BookingDate = objbooking.BookingDate;
-                existingBooking.Capacity = objbooking.Capacity;
-
+                dbContext.BookingTable.Add(existing);
                 await dbContext.SaveChangesAsync();
-                return true;
+                response.Data = (int)objbooking.BookingID;
+                response.Message = "record added successfully";
+                response.IsSuccess = true;
             }
-
-            return false;
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = "Something went wrong";
+                response.Data = 0;
+            }
+            return response;
         }
-
-        public async Task<List<Bookingmodel>> GetAll()
+        
+        public async Task<APIResponseModel> Update(Bookingmodel objbooking)
         {
-            return await dbContext.Set<Bookingmodel>().ToListAsync();
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+
+                Bookingmodel? existingbooking = await GetById(objbooking.BookingID);
+                if (existingbooking != null)
+                {
+                    existingbooking.Capacity = objbooking.Capacity;
+                    existingbooking.BookingDate = objbooking.BookingDate;
+                    response.Data = await dbContext.SaveChangesAsync();
+                    response.Message = "record fetched successfully";
+                    response.IsSuccess = true;
+
+                }
+            }
+            catch (Exception e)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+
+            }
+            return response;
         }
+
+        public async Task<APIResponseModel> GetAll()
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                response.Data = await dbContext.BookingTable.ToListAsync();
+                response.Message = "record fetched successfully";
+                response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+            }
+            return response;
+        }
+        
+        
     }
 }

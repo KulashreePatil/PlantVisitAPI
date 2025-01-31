@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlantVisit.EFCoreModel;
+using PlantVisit.EFCoreModel.Common;
 using PlantVisit.Service.Facilities;
 
 namespace PlantVisit.Controllers
@@ -25,12 +26,8 @@ namespace PlantVisit.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> Update(FacilitiesModel FacilityModel)
         {
-            bool updated = await _service.Update(FacilityModel);
-            if (updated)
-            {
-                return Ok("Updated Successfully");
-            }
-            return NotFound("Facility not found or update failed.");
+            return Ok(await _service.Update(FacilityModel));
+            
         }
 
         [HttpGet("[action]"), AllowAnonymous]

@@ -1,4 +1,5 @@
 ﻿using PlantVisit.EFCoreModel;
+using PlantVisit.EFCoreModel.Common;
 
 namespace PlantVisit.Service.Booking
 {
@@ -6,11 +7,11 @@ namespace PlantVisit.Service.Booking
     {
 
 
-        Task<List<Bookingmodel>> GetAll();
+        Task<APIResponseModel> GetAll();
 
-        Task<Bookingmodel> GetById(int id);
-        Task<int> Add(Bookingmodel objbooking);
-        Task<bool> Update(Bookingmodel objbooking);
+        Task<Bookingmodel> GetById(int? id);
+        Task<APIResponseModel> Add(Bookingmodel objbooking);
+        Task<APIResponseModel> Update(Bookingmodel objbooking);
     }
 
 }

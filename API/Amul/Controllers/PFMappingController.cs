@@ -20,14 +20,14 @@ namespace PlantVisit.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(PFMappingmodel obj)
         {
-            int id = await _service.Add(obj);
-            return Ok("Added Successfully, Id: " + id);
+            
+            return Ok(await _service.Add(obj));
         }
         [HttpGet("[action]"), AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
-            List<PFMappingmodel> lstData = await _service.GetAll();
-            return Ok(lstData);
+
+            return Ok(await _service.GetAll());
         }
 
 

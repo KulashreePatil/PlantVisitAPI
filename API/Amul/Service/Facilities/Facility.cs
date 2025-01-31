@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using PlantVisit.EFCoreModel;
 using PlantVisit.EFCoreModel.Common;
 
@@ -35,7 +36,7 @@ namespace PlantVisit.Service.Facilities
             }
             return response;
         }
-        public async Task<FacilitiesModel> GetById(int id)
+        public async Task<FacilitiesModel> GetById(int? id)
         {
             var facilities = await dbContext.Set<FacilitiesModel>().FindAsync(id);
             if (facilities == null)
@@ -44,18 +45,29 @@ namespace PlantVisit.Service.Facilities
             }
             return facilities;
         }
-        public async Task<bool> Update(FacilitiesModel objfac)
-        {
-            FacilitiesModel? existingfacility = await GetById((int)objfac.FacilitiesId);
-            if (existingfacility != null)
+        public async Task<APIResponseModel> Update(FacilitiesModel objfac)
+        { 
+            APIResponseModel response = new APIResponseModel();
+            try
             {
-                existingfacility.FacilitiesName = objfac.FacilitiesName;
+                FacilitiesModel? existingFacilities = await GetById(objfac.FacilitiesId);
+                if (existingFacilities != null)
+                {
+                    existingFacilities.FacilitiesName = objfac.FacilitiesName;
+                    response.Data = await dbContext.SaveChangesAsync();
+                    response.Message = "record fetched successfully";
+                    response.IsSuccess = true;
 
-
-                await dbContext.SaveChangesAsync();
-                return true;
+                }
             }
-            return false;
+            catch (Exception e)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+
+            }
+            return response;
         }
 
         public async Task<APIResponseModel> GetAll()
@@ -80,13 +92,6 @@ namespace PlantVisit.Service.Facilities
         {
             return await dbContext.Facilities.FindAsync(id);
         }
-        public async Task<List<PlantFacilityViewModel>> GetDetails()
-        {
-            return await dbContext.PlantFacilityViewModel.FromSqlRaw(@"SELECT p.PlantID, p.PlantName, f.FacilitiesId AS FacilityID, f.FacilitiesName 
-                              FROM Plants p
-                              INNER JOIN Mapping m ON p.PlantID = m.PlantID
-                              INNER JOIN Facilities f ON m.FacilitiesID = f.FacilitiesId")
-                .ToListAsync();
-        }
+        
     }
 }

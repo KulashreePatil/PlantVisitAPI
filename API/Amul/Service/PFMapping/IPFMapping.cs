@@ -1,4 +1,5 @@
 ﻿using PlantVisit.EFCoreModel;
+using PlantVisit.EFCoreModel.Common;
 
 namespace PlantVisit.Service.PFMap
 
@@ -6,10 +7,10 @@ namespace PlantVisit.Service.PFMap
     public interface IPFMapping
     {
 
-        Task<List<PFMappingmodel>> GetAll();
-        Task<PFMappingmodel?> GetByIdAsync(int plantid);
-        Task<int> Add(PFMappingmodel obj);
-        Task<List<PlantFacilityViewModel>> GetDetails();
+        Task<APIResponseModel> GetAll();
+        Task<PFMappingmodel?> GetByIdAsync(int? plantid);
+        Task<APIResponseModel> Add(PFMappingmodel obj);
+       
 
     }
 

@@ -3,6 +3,7 @@ using PlantVisit.EFCoreModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using PlantVisit.EFCoreModel.Common;
 
 namespace PlantVisit.Service.PFMap
 {
@@ -13,46 +14,55 @@ namespace PlantVisit.Service.PFMap
         {
             dbContext = PlantVisitDBContext;
         }
-
-        public async Task<int> Add(PFMappingmodel objMapping)
+        public async Task<APIResponseModel> Add(PFMappingmodel objMapping)
         {
-            var existingPFMapping = new PFMappingmodel
+            APIResponseModel response = new APIResponseModel();
+            try
             {
-                PlantID = objMapping.PlantID,
-                FacilitiesID = objMapping.FacilitiesID
+                var existingPFMapping = new PFMappingmodel
+                {
+                    PlantID = objMapping.PlantID,
+                    FacilitiesID = objMapping.FacilitiesID
+                };
 
-            };
-            dbContext.Mapping.Add(existingPFMapping);
-            await dbContext.SaveChangesAsync();
-            return existingPFMapping.PFId;
-
-            
+                dbContext.Mapping.Add(existingPFMapping);
+                await dbContext.SaveChangesAsync();
+                response.Data = (int)objMapping.PFId;
+                response.Message = "record added successfully";
+                response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Something went wrong";
+                response.Data = 0;
+            }
+            return response;
         }
-
-        public async Task<List<PFMappingmodel>> GetAll()
+      
+        public async Task<APIResponseModel> GetAll()
         {
-            return await dbContext.Mapping.ToListAsync();
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                response.Data = await dbContext.Mapping.ToListAsync();
+                response.Message = "record fetched successfully";
+                response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+            }
+            return response;
         }
 
-        public async Task<PFMappingmodel?> GetByIdAsync(int plantid)
+        public async Task<PFMappingmodel?> GetByIdAsync(int? plantid)
         {
             return await dbContext.Mapping.FirstOrDefaultAsync(m => m.PlantID == plantid);
         }
 
-        public async Task<List<PlantFacilityViewModel>> GetDetails()
-        {
-            return await dbContext.ViewModel
-                .FromSqlRaw(@"
-                    SELECT 
-                        p.PlantID, 
-                        p.PlantName, 
-                        f.FacilitiesId AS FacilityID, 
-                        f.FacilitiesName AS FacilityName
-                    FROM Plants p
-                    INNER JOIN Mapping m ON p.PlantID = m.PlantID
-                    INNER JOIN Facilities f ON m.FacilitiesID = f.FacilitiesId
-                ")
-                .ToListAsync();
-        }
+      
     }
 }
