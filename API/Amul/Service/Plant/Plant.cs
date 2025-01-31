@@ -37,7 +37,7 @@ namespace PlantVisit.Service.Plant
             {
                 throw new KeyNotFoundException($"Plant with ID {id} not found.");
             }
-            return plant;
+            return plant; 
         }
 
 
