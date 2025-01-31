@@ -16,9 +16,9 @@ namespace PlantVisit.Controllers
         }
 
         [HttpGet("[action]"), AllowAnonymous]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? searchTerm)
         {
-            return Ok(await _service.GetAll());
+            return Ok(await _service.GetAll(searchTerm));
         }
         [HttpPost]
         public async Task<IActionResult> Add(PlantModel PlantModel)

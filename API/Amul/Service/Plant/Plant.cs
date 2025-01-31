@@ -22,13 +22,21 @@ namespace PlantVisit.Service.Plant
             return dbContext;
         }
 
-        public async Task<APIResponseModel> GetAll()
+        public async Task<APIResponseModel> GetAll(string? searchTerm)
         {
             APIResponseModel response = new APIResponseModel();
             try
             {
-                response.Data = await dbContext.Plant.ToListAsync();
-                response.Message = "record fetched successfully";
+                IQueryable<PlantModel> query = dbContext.Plant;
+                
+
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    query = query.Where(p => p.PlantName.Contains(searchTerm));
+                }
+
+                response.Data = await query.ToListAsync();
+                response.Message = "Records fetched successfully";
                 response.IsSuccess = true;
             }
             catch (Exception)
@@ -39,7 +47,8 @@ namespace PlantVisit.Service.Plant
             }
             return response;
         }
-        
+
+
         public async Task<PlantModel> GetByID(int id)
         {
             var plant = await dbContext.Set<PlantModel>().FindAsync(id);

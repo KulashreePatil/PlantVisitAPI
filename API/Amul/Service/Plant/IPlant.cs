@@ -5,12 +5,12 @@ namespace PlantVisit.Service.Plant
 {
     public interface IPlant
     {
-
-       Task <APIResponseModel> GetAll();
-        Task <APIResponseModel> Add(PlantModel objmodel);
-        Task <APIResponseModel> Update (PlantModel objplant);
-        Task <PlantModel> GetByID (int id);
+        Task<APIResponseModel> GetAll(string? searchTerm);
+        Task<PlantModel> GetByID(int id);
+        Task<APIResponseModel> Add(PlantModel objplant);
+        Task<APIResponseModel> Update(PlantModel objplant);
     }
+
 
 }
 
