@@ -19,15 +19,14 @@ namespace PlantVisit.Controllers
         public async Task<IActionResult> GetAll([FromQuery] string? searchTerm)
         {
             return Ok(await _service.GetAll(searchTerm));
-<<<<<<< HEAD
+
         }
         [HttpGet("[action]")]
         public async Task<IActionResult> GetFacilityList()
         {
             
             return Ok(await _service.GetFacilityList());
-=======
->>>>>>> c63c843c2db437dc168aada4b00e9697a7b53954
+
         }
         [HttpPost]
         public async Task<IActionResult> Add(PlantModel PlantModel)

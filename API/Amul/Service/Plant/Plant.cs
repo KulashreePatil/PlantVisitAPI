@@ -129,6 +129,7 @@ namespace PlantVisit.Service.Plant
             {
                 var lstdata = await dbContext.PlantFacilityViewModel.FromSqlRaw(@" 
                  SELECT 
+                 pl.PlantID,
                  pl.PlantName,
                  CAST(pl.PlantDescription AS NVARCHAR(MAX)) AS PlantDescription, 
                  pl.PlantLocation,
