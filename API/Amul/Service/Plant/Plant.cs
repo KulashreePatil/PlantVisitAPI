@@ -122,6 +122,43 @@ namespace PlantVisit.Service.Plant
             }
             return response;
         }
+        public async Task<APIResponseModel> GetFacilityList()
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                var lstdata = await dbContext.PlantFacilityViewModel.FromSqlRaw(@" 
+                 SELECT 
+                 pl.PlantName,
+                 CAST(pl.PlantDescription AS NVARCHAR(MAX)) AS PlantDescription, 
+                 pl.PlantLocation,
+                 pl.PlantNumber,
+                 pl.PlantEmail,
+                 STRING_AGG(f.FacilitiesName, ', ') AS FacilitiesNames 
+                 FROM PlantList pl
+                 LEFT JOIN PFMapping pf ON pl.PlantID = pf.PlantID
+                 LEFT JOIN Facilities f ON pf.FacilitiesID = f.FacilitiesID
+                 GROUP BY 
+                 pl.PlantID, 
+                 pl.PlantName, 
+                 CAST(pl.PlantDescription AS NVARCHAR(MAX)), 
+                 pl.PlantLocation, 
+                 pl.PlantNumber, 
+                 pl.PlantEmail").ToListAsync();
+                
+                 response.Data = lstdata;
+                 response.Message = "Record fetched successfully";
+                 response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.IsSuccess = false;
+            }
+            return response;
+        }
+
 
     }
 }
