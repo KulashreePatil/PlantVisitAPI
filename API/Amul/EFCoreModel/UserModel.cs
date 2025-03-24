@@ -7,5 +7,8 @@ namespace PlantVisit.EFCoreModel
         [Key]
        public int UserID { get; set; }
        public int UserNumber { get; set; }
+
+        public int OTP { get; set; }
+
     }
 }

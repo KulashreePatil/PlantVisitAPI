@@ -13,7 +13,5 @@ namespace PlantVisit.EFCoreModel
             public string? PlantEmail { get; set; }
             public string? FacilitiesNames { get; set; } 
         
-
-        
     }
 }
