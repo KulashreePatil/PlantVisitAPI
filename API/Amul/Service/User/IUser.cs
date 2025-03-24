@@ -11,5 +11,6 @@ public interface IUser
     Task<APIResponseModel> Add(UserModel objuser);
     Task<APIResponseModel> Update(UserModel objuser);
     Task<UserModel> GetByID(int id);
+    Task<APIResponseModel> ValidateCredential(int number, int OTP);
 }
 

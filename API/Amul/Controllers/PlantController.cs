@@ -22,10 +22,10 @@ namespace PlantVisit.Controllers
 
         }
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetFacilityList()
+        public async Task<IActionResult> GetFacilityList([FromQuery] string? searchTerm)
         {
-            
-            return Ok(await _service.GetFacilityList());
+
+            return Ok(await _service.GetFacilityList(searchTerm));
 
         }
         [HttpPost]

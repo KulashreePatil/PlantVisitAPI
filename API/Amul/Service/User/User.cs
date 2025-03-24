@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlantVisit.EFCoreModel;
 using PlantVisit.EFCoreModel.Common;
+using System.Net;
 
 namespace PlantVisit.Service.User
 {
@@ -89,6 +90,41 @@ namespace PlantVisit.Service.User
                 response.IsSuccess = false;
             }
             return response;
+        }
+        public async Task<APIResponseModel> ValidateCredential(int number, int OTP)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+
+                using (var connection = dbContext)
+                {
+                    bool duplicateNumber = connection.User
+                        .Any(x => x.UserNumber == number && x.OTP == OTP);
+
+                    if (duplicateNumber)
+                    {
+
+                        responseModel.Data = true;
+                        responseModel.IsSuccess = true;
+                        responseModel.Message = "Login Successfully";
+                    }
+                    else
+                    {
+                        responseModel.IsSuccess = false;
+                        responseModel.Message = "Invalid Credentials";
+                        responseModel.Data = false;
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                responseModel.IsSuccess = true;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
         }
     }
 }

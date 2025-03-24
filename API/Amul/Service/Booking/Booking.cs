@@ -21,35 +21,89 @@ namespace PlantVisit.Service.Booking
             }
             return booking;
         }
+        //public async Task<APIResponseModel> Add(Bookingmodel objbooking)
+        //{
+        //    APIResponseModel response = new APIResponseModel();
+        //    try
+        //    {
+        //        var existing = new Bookingmodel
+        //        {
+        //            UserID = objbooking.UserID,
+        //            PlantID = objbooking.PlantID,
+        //            VisitID = objbooking.VisitID,
+        //            BookingDate = objbooking.BookingDate,
+        //            Capacity = objbooking.Capacity
+        //        };
+
+        //        dbContext.BookingTable.Add(existing);
+        //        await dbContext.SaveChangesAsync();
+        //        response.Data = (int)objbooking.BookingID;
+        //        response.Message = "record added successfully";
+        //        response.IsSuccess = true;
+        ////    }
+        //    catch (Exception e)
+        //    {
+        //        response.IsSuccess = false;
+        //        response.Message = "Something went wrong";
+        //        response.Data = 0;
+        //    }
+        //    return response;
+        //}
         public async Task<APIResponseModel> Add(Bookingmodel objbooking)
         {
             APIResponseModel response = new APIResponseModel();
+
             try
             {
-                var existing = new Bookingmodel
+                // 1. Basic validation (date, capacity, etc.)
+                if (objbooking.BookingDate == default(DateTime))
                 {
-                    UserID = objbooking.UserID,
-                    PlantID = objbooking.PlantID,
-                    VisitID = objbooking.VisitID,
-                    BookingDate = objbooking.BookingDate,
-                    Capacity = objbooking.Capacity
-                };
+                    response.IsSuccess = false;
+                    response.Message = "Invalid booking date.";
+                    return response;
+                }
 
-                dbContext.BookingTable.Add(existing);
+                // 2. Fetch the related Visit from the database
+                var visit = await dbContext.Visit.FindAsync(objbooking.VisitID);
+                if (visit == null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Visit not found.";
+                    return response;
+                }
+
+                // 3. Check if capacity is exceeded for the entered PlantID only
+                int totalBookedForThisVisit = await dbContext.BookingTable
+                    .Where(b => b.VisitID == objbooking.VisitID && b.PlantID == objbooking.PlantID)
+                    .SumAsync(b => (int?)b.Capacity) ?? 0;
+
+                // Ensure the new booking does not exceed the visit's capacity for this PlantID
+                if (totalBookedForThisVisit + objbooking.Capacity > visit.Capacity)
+                {
+                    response.IsSuccess = false;
+                    response.Message = $"Cannot book. Capacity exceeded for Visit {visit.VisitID} at Plant {objbooking.PlantID}.";
+                    return response;
+                }
+
+                // 4. If capacity is still available, create the booking
+                dbContext.BookingTable.Add(objbooking);
                 await dbContext.SaveChangesAsync();
+
+                // 5. Return success
                 response.Data = (int)objbooking.BookingID;
-                response.Message = "record added successfully";
                 response.IsSuccess = true;
+                response.Message = "Booking created successfully.";
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 response.IsSuccess = false;
-                response.Message = "Something went wrong";
+                response.Message = "Something went wrong while creating the booking.";
                 response.Data = 0;
             }
             return response;
         }
-        
+
+
         public async Task<APIResponseModel> Update(Bookingmodel objbooking)
         {
             APIResponseModel response = new APIResponseModel();

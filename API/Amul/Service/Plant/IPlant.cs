@@ -9,7 +9,7 @@ namespace PlantVisit.Service.Plant
         Task<PlantModel> GetByID(int id);
         Task<APIResponseModel> Add(PlantModel objplant);
         Task<APIResponseModel> Update(PlantModel objplant);
-        Task<APIResponseModel> GetFacilityList();
+        Task<APIResponseModel> GetFacilityList(string? searchTerm);
 
     }
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PlantVisit.EFCoreModel;
+using PlantVisit.EFCoreModel.Common;
 using PlantVisit.Service.User;
 
 
@@ -37,6 +38,12 @@ namespace PlantVisit.Controllers
             return Ok(await _service.Update(UserModel)); ;
         }
 
+        [HttpGet("[action]")]
+        [HttpGet("AuthenticateUser")]
+        public async Task<APIResponseModel> ValidateCredential(int number, int OTP)
+        {
+            return await _service.ValidateCredential(number, OTP);
+        }
 
     }
 }

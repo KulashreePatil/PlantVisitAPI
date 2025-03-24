@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PlantVisit.EFCoreModel;
 using PlantVisit.EFCoreModel.Common;
@@ -25,10 +26,11 @@ namespace PlantVisit.Service.Plant
         public async Task<APIResponseModel> GetAll(string? searchTerm)
         {
             APIResponseModel response = new APIResponseModel();
+
             try
             {
                 IQueryable<PlantModel> query = dbContext.Plant;
-                
+
 
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
@@ -46,6 +48,7 @@ namespace PlantVisit.Service.Plant
                 response.IsSuccess = false;
             }
             return response;
+
         }
 
 
@@ -56,13 +59,13 @@ namespace PlantVisit.Service.Plant
             {
                 throw new KeyNotFoundException($"Plant with ID {id} not found.");
             }
-            return plant; 
+            return plant;
         }
 
 
         public async Task<APIResponseModel> Add(PlantModel objplant)
         {
-           APIResponseModel response = new APIResponseModel();
+            APIResponseModel response = new APIResponseModel();
 
             try
             {
@@ -95,7 +98,7 @@ namespace PlantVisit.Service.Plant
 
             try
             {
-                
+
                 PlantModel? existingplant = await GetByID(objplant.PlantID);
                 if (existingplant != null)
                 {
@@ -111,7 +114,7 @@ namespace PlantVisit.Service.Plant
                     response.IsSuccess = true;
 
                 }
-                
+
             }
             catch (Exception)
             {
@@ -122,12 +125,13 @@ namespace PlantVisit.Service.Plant
             }
             return response;
         }
-        public async Task<APIResponseModel> GetFacilityList()
+        public async Task<APIResponseModel> GetFacilityList(string? searchTerm)
         {
             APIResponseModel response = new APIResponseModel();
+
             try
             {
-                var lstdata = await dbContext.PlantFacilityViewModel.FromSqlRaw(@" 
+                string query = @" 
                  SELECT 
                  pl.PlantID,
                  pl.PlantName,
@@ -139,28 +143,30 @@ namespace PlantVisit.Service.Plant
                  FROM PlantList pl
                  LEFT JOIN PFMapping pf ON pl.PlantID = pf.PlantID
                  LEFT JOIN Facilities f ON pf.FacilitiesID = f.FacilitiesID
+                 WHERE (@searchTerm IS NULL OR pl.PlantName LIKE '%' + @searchTerm + '%') 
                  GROUP BY 
                  pl.PlantID, 
                  pl.PlantName, 
                  CAST(pl.PlantDescription AS NVARCHAR(MAX)), 
                  pl.PlantLocation, 
                  pl.PlantNumber, 
-                 pl.PlantEmail").ToListAsync();
-                
-                 response.Data = lstdata;
-                 response.Message = "Record fetched successfully";
-                 response.IsSuccess = true;
+                 pl.PlantEmail";
+                var lstdata = await dbContext.PlantFacilityViewModel.FromSqlRaw(query, new SqlParameter("@searchTerm", (object?)searchTerm ?? DBNull.Value)).ToListAsync();
+
+
+                response.Data = lstdata;
+                response.Message = "Record fetched successfully";
+                response.IsSuccess = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.Data = null;
                 response.Message = "Something went wrong";
                 response.IsSuccess = false;
             }
             return response;
-        }
 
+        }
 
     }
 }
-
