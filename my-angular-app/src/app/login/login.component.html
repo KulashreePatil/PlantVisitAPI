@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="card">
+    <h2>Login</h2>
+    <form (submit)="onLogin($event)">
+      <input type="text" [(ngModel)]="number" name="number" placeholder="Enter Number" required />
+      <input type="password" [(ngModel)]="OTP" name="OTP" placeholder="Enter OTP" required />
+      <button type="submit">Login</button>
+    </form>
+    <p>{{ loginMessage }}</p>
+  </div>
+</div>

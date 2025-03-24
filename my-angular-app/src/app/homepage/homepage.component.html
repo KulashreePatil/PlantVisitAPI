@@ -1,0 +1,173 @@
+<div class="header">
+  <img src="assets/Amul Logo/AmulLogo.png" alt="Amul Logo" class="logo">
+  <div class="top-buttons">
+    <button onclick="window.open('https://shop.amul.com/en/', '_blank')">Amul Shop</button>
+    <button>Book Visit</button>
+    <button (click)="handleButtonClick('Instruction')">Instruction</button>
+    <button onclick="window.open('http://localhost:4200/login')">Login</button>
+  </div>
+</div>
+
+<div class ="imageslide">
+  <ng-image-slider #nav
+    [images]="imageObject"
+    [infinite]="true"
+    [autoSlide]="1"
+    [imageSize]="{width:'40%', height: '40%'}"
+    slideImage="1"></ng-image-slider>
+</div>
+
+<!-- <input type="date" [(ngModel)]="fromDate" class="date-picker"/>
+<input type="date" [(ngModel)]="toDate" class="date-picker"/> -->
+
+<!-- Instruction Modal -->
+<div *ngIf="showInstructionModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Visitor's Instructions</h2>
+    </div>
+    <div class="modal-body">
+      <label for="language">Select your language:</label>
+      <select id="language" (change)="selectLanguage($event)">
+        <option value="english">English</option>
+        <option value="hindi">Hindi</option>
+        <option value="gujarati">Gujarati</option>
+      </select>
+
+      <div *ngIf="selectedLanguage === 'english'" class="instruction-content">
+        <ol>
+          <li>Carry ID Proof: Please ensure you carry a valid ID proof.
+            If visiting in a group, the ID proof of at least one group member is mandatory.</li>
+            <li>Responsibility of Teachers/Professors: Teachers or professors accompanying children/students are responsible for their safety and behavior during the visit. The organization will not be liable for any mishap resulting from negligence.</li>
+            <li>No Locker Facility: There is no provision for storing luggage or valuables. Visitors are advised not to carry heavy luggage during their visit.</li>
+            <li>Group Tours: Visitors will be taken for the plant tour in groups.</li>
+            <li>Observation Areas: Visitors can observe the processing and production activities through transparent glass windows.</li>
+            <li>Emergency Situations: Please note that there could be emergency shutdowns or production line breakdowns during the visit.</li>
+            <li>Follow Instructions: Always stay with your group and adhere to the instructions provided by the plant tour guide.</li>
+            <li>Designated Walkways: For your safety, remain on the designated walkways at all times.</li>
+            <li>Photography Restrictions: Taking pictures or videos of the process and production areas is strictly prohibited. Photography is allowed only in designated areas.</li>
+            <li>Pets Prohibited: Pets, such as dogs and cats, are not allowed in the plant premises as it is a manufacturing facility.</li>
+            <li>Caution with Vehicles: Be attentive to the movement of heavy vehicles in the area.</li>
+            <li>Rule Violations: Any violation of these rules may result in the interruption of the plant tour for the concerned individual.</li>
+            <li>We hope you have a memorable and safe visit!</li>
+
+          </ol>
+      </div>
+      <div *ngIf="selectedLanguage === 'hindi'" class="instruction-content">
+        <ol>
+          <li>पहचान पत्र साथ रखें: कृपया एक मान्य पहचान पत्र साथ लाएं। यदि आप समूह में आ रहे हैं, तो कम से कम एक व्यक्ति का पहचान पत्र अनिवार्य है।</li>
+          <li>शिक्षकों/प्रोफेसरों की जिम्मेदारी: बच्चों/छात्रों के साथ आने वाले शिक्षक या प्रोफेसर उनकी सुरक्षा और व्यवहार के लिए जिम्मेदार होंगे। लापरवाही के कारण होने वाली किसी भी दुर्घटना के लिए संगठन उत्तरदायी नहीं होगा।</li>
+              <li>लॉकर सुविधा उपलब्ध नहीं: सामान या मूल्यवान वस्तुओं को रखने के लिए कोई लॉकर सुविधा नहीं है। आगंतुकों से अनुरोध है कि यात्रा के दौरान भारी सामान न लाएं।</li>
+              <li>समूह में टूर: आगंतुकों को समूहों में प्लांट टूर के लिए ले जाया जाएगा।</li>
+              <li>देखने की व्यवस्था: आगंतुक पारदर्शी कांच की खिड़कियों से प्रसंस्करण और उत्पादन गतिविधियों को देख सकते हैं।</li>
+              <li>आपातकालीन स्थिति: कृपया ध्यान दें कि यात्रा के दौरान आपातकालीन शटडाउन या उत्पादन लाइन में गड़बड़ी हो सकती है।</li>
+              <li>निर्देशों का पालन करें: हमेशा अपने समूह के साथ रहें और प्लांट टूर गाइड द्वारा दिए गए निर्देशों का पालन करें।</li>
+              <li>निर्धारित मार्ग पर चलें: अपनी सुरक्षा के लिए, हमेशा निर्धारित मार्ग पर ही रहें और चलें।</li>
+              <li>फोटोग्राफी प्रतिबंध: प्रक्रिया और उत्पादन क्षेत्र में तस्वीरें या वीडियो लेना सख्त मना है। फोटोग्राफी केवल निर्दिष्ट स्थानों पर ही अनुमति है।</li>
+              <li>पशु प्रवेश वर्जित: कुत्ते, बिल्ली आदि जैसे पालतू जानवरों को प्लांट परिसर में लाना मना है क्योंकि यह एक उत्पादन इकाई है।</li>
+              <li>वाहनों से सावधान रहें: क्षेत्र में भारी वाहनों की आवाजाही का ध्यान रखें।</li>
+              <li>नियमों का उल्लंघन: इन नियमों का उल्लंघन करने पर संबंधित व्यक्ति की प्लांट यात्रा को बाधित किया जा सकता है।</li>
+
+        </ol>
+      </div>
+      <div *ngIf="selectedLanguage === 'gujarati'" class="instruction-content">
+        <ol>
+          <li>ઓળખપત્ર સાથે રાખો: કૃપા કરીને માન્ય ઓળખપત્ર સાથે લાવશો.જો તમે જૂથમાં આવી રહ્યા છો, તો ઓછામાં ઓછા એક વ્યક્તિનું ઓળખપત્ર ફરજિયાત છે.</li>
+          <li>શિક્ષકો/પ્રોફેસર્સની જવાબદારી: બાળકો/વિદ્યાર્થીઓ સાથે આવતા શિક્ષકો અથવા પ્રોફેસર્સ તેમની સુરક્ષા અને વ્યવહાર માટે જવાબદાર રહેશે. બેદરકારીના કારણે થતી કોઈપણ ઘટના માટે સંસ્થા જવાબદાર નહીં રહે.</li>
+          <li>લોકર સુવિધા ઉપલબ્ધ નથી: સામાન અથવા મૂલ્યવાન વસ્તુઓ રાખવા માટે લોકર સુવિધા ઉપલબ્ધ નથી. મુલાકાતીઓએ પરામર્શ આપવામાં આવે છે કે તેઓ ભારી સામાન સાથે ન આવે.</li>
+          <li>જૂથમાં પ્રવાસ: મુલાકાતીઓના જૂથોને પ્લાન્ટ પ્રવાસ માટે લેવામાં આવશે.</li>
+          <li>જોવાનું આયોજન: મુલાકાતીઓ પારદર્શક કાચની બારીઓમાંથી પ્રક્રિયા અને ઉત્પાદનની પ્રવૃત્તિઓ જોઈ શકે છે.</li>
+          <li>આપત્તિસ્થિતિ: કૃપા કરીને ધ્યાનમાં રાખો કે મુલાકાત દરમિયાન આકસ્મિક બંધ અથવા ઉત્પાદન લાઇનમાં ખામી આવી શકે છે.</li>
+          <li>નિર્દેશોનું પાલન કરો: હંમેશા તમારા જૂથ સાથે રહો અને પ્લાન્ટ ટુર ગાઈડ દ્વારા આપેલા સૂચનોનું પાલન કરો.</li>
+          <li>નક્કી કરેલા માર્ગ પર ચાલો: તમારી સુરક્ષાના માટે હંમેશા નક્કી કરેલા માર્ગ પર જ રહો અને ચાલો.</li>
+          <li>ફોટોગ્રાફી પ્રતિબંધ: પ્રક્રિયા અને ઉત્પાદન ક્ષેત્રમાં ફોટા કે વિડિઓ લેવો સખત મનાઈ છે. ફોટોગ્રાફી ફક્ત નિર્ધિષ્ટ સ્થળોએ જ મંજૂર છે.</li>
+          <li>પાળતુ પ્રાણીઓ પ્રવેશ પ્રતિબંધિત: કુતરા, બિલાડી વગેરે જેવા પાળતુ પ્રાણીઓને પ્લાન્ટ પરિસરમાં લાવવાની મંજૂરી નથી, કારણ કે આ એક ઉત્પાદન એકમ છે.</li>
+          <li>વાહનો અંગે સાવચેત રહો: પરિસરમાં ભારે વાહનોની ચાલના માટે ધ્યાન આપો.</li>
+          <li>નિયમોના ઉલ્લંઘન અંગે: આ નિયમોમાંથી કોઈનો ભંગ કરવાથી સંબંધિત વ્યક્તિના પ્લાન્ટ પ્રવાસને અટકાવી શકાય છે.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="close-instructions" (click)="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<h1 class="welcome-message">Welcome To Amul Plant Visit Booking</h1>
+
+<div class="search-container">
+  <div class="left-text">Plant List</div>
+  <input type="text" class="search-bar" placeholder="Search plants..." (input)="onSearch($event)">
+</div>
+
+<div class="list-item" *ngFor="let item of filteredPlants; let i = index">
+  <img [src]="item.image" alt="Image" class="list-image" />
+  <div class="list-text">
+    <div class="plant-info">
+      <h3>{{ item.plantName }}</h3>
+      <p>{{ item.plantDescription }}</p> <br>
+      <p><strong>Location:</strong> {{ item.plantLocation }}</p><br>
+      <p><strong>Number:</strong> {{ item.plantNumber }}</p><br>
+      <p><strong>Email :</strong> {{ item.plantEmail }}</p><br>
+      <p><strong>Facilities:</strong> {{ item.facilitiesNames || 'N/A' }}</p>
+      <button class="availability-btn" (click)="onCheckAvailability(item)">Availability Check & Book Visit</button>
+    </div>
+  </div>
+</div>
+
+<!-- Availability Check Modal -->
+<div class="modal-overlay" *ngIf="showAvailabilityModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeAvailabilityModal()">&times;</span>
+    <h2>Availability Check & Book Visit</h2>
+
+    <div class="date-selection">
+      <label>From Date</label>
+      <input type="date" [(ngModel)]="fromDate" class="date-picker"/>
+      <label>To Date</label>
+      <input type="date" [(ngModel)]="toDate" class="date-picker"/>
+    </div>
+
+    <p class="important-note">
+      <strong>Important Note:</strong> Click on an available slot to start the booking.
+    </p>
+
+    <table class="availability-table">
+      <thead>
+        <tr>
+          <th>Booking Date - Day</th>
+          <th>Available Slots (Available Visits)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let slot of availableSlots">
+          <td>{{ slot.date }} - {{ slot.day }}</td>
+          <td>
+            <span class="available-slot" (click)="bookVisit(slot)">
+              {{ slot.time }} ({{ slot.availableVisits }})
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <p>Powered by <a href="https://www.promptdairytech.com/" target="_blank" style="color: blue; text-decoration: none; font-weight: bold;">Prompt</a> 2024 GCMMF ALL Rights Reserved.</p>
+    </div>
+    <div class="footer-right">
+      <a href="https://www.facebook.com/amul.coop" target="_blank" class="social-btn">
+        <img src="assets/Social Media/facebook.jpg" alt="Facebook">
+      </a>
+      <a href="https://x.com/amul_coop?mx=2" target="_blank" class="social-btn">
+        <img src="assets/Social Media/twitter.jpg" alt="Twitter">
+      </a>
+      <a href="https://www.instagram.com/amul_india/" target="_blank" class="social-btn">
+        <img src="assets/Social Media/instagram.jpg" alt="Instagram">
+      </a>
+    </div>
+  </div>
+</footer>
